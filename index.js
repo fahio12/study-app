@@ -1,15 +1,20 @@
 const express = require("express");
 const app = express();
 const handlebars  = require('express-handlebars');
+const mongoose = require('mongoose')
 require('dotenv').config()
+
+// database
+require('./config/database');
+
 // routes
 const home = require('./routes/home');
 const study = require('./routes/study');
 const profile = require('./routes/profile');
 
-
+//view engine
+app.use(express.urlencoded({ extended:false }))
 app.engine('handlebars', handlebars());
-
 app.engine('.hbs', handlebars({
   defaultLayout: "main",
   extname:".hbs",
@@ -18,6 +23,7 @@ app.engine('.hbs', handlebars({
 }));
 app.set('view engine','.hbs');
 
+//router
 app.use('/',home)
 app.use('/study',study)
 app.use('/profile',profile)
